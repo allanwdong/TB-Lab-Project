@@ -77,31 +77,3 @@ with open('Unique_Overall', 'w+') as fp:
     json.dump(foobar, fp, sort_keys = True, indent = 4)
   
 
-# Function creates dict of unique word pairs for all gene Data category string
-#  'data_category' in list of genes 'genelst'
-
-def Unique_Pairs_Overall(genelst, data_category):    
-    pairs_list = []    
-    for gene in Hash1:
-        datastr_ = str(Hash3['{foo}_{bar}'.format(foo = gene,
-                                                 bar = data_category)])
-        datastrlower_ = datastr_.lower()
-        datastrnopunc_ = datastrlower_.translate(None, '{}[]()=,.<>')
-        indv_list = datastrnopunc_.split(' ')
-        i = 0        
-        while i  <= len(indv_list) - 2:
-            x = indv_list[i] + ' ' + indv_list[i + 1]
-            pairs_list.append(x)
-            i += 1  
-    for pair in generator(pairs_list):
-        cnt[pair] += 1
-    return cnt
-    
-grail1 = Unique_Pairs_Overall(csvdir,'Function')
-with open('Unique_Pairs', 'w+') as fp1:
-    json.dump(grail1, fp1, sort_keys = True, indent = 4)
-
-'''
-For some reason, Unique_Pairs_Overall will give pair only when previous func
-is commented out, but both if it isn't commented out
-'''
