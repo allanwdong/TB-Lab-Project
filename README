@@ -1,1 +1,9 @@
 README
+
+Contains non-working and working code for Tuberculosis Project
+
+
+Which .py files that are used for this project:
+  NameChange.py
+  ConvertCSV.py
+  Master.py
