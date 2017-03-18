@@ -50,11 +50,10 @@ def Unique_Words_Function(gene):
     return cnt
     
     
-'''
+
 for i in generator(os.listdir(csvdir)):
     gene = i.strip('.csv')    
     print Unique_Words_Function(gene)    
-'''
 
 # Function creates dict of unique word count for all gene Data category string
 #  'data_category'  in list of genes 'genelst'
