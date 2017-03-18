@@ -7,3 +7,25 @@ Which .py files that are used for this project:
   NameChange.py
   ConvertCSV.py
   Master.py
+  Hashmapper
+  UniqueWordsFunction
+  UniquePairsFunction
+
+Required Python Packages
+
+os
+re
+csv
+json
+pickle
+collections
+
+
+Instructions:
+
+Used linux wget to scrape website into collection of HTML pages
+Remove non -gene HTML files
+Used NameChange to clean HTML file names
+Use Master  & ConvertCSV to clean data from genes into collection of csv files (1 gene HTML file :: 1 gene csv file)
+Use Hashmapper to create hashes of total information [collates information to make it easier to find specific information]
+Use UniqueWordsFunction ande UniquePairsFunction to get count of unique words and word pairs
