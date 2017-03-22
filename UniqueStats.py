@@ -7,6 +7,8 @@ Created on Fri Mar 17 20:44:26 2017
 
 import os
 import json
+import pandas as pd
+import numpy as np
 
 
 master_csv_dir = '/home/allan/Tuberculosis/CSVs'
@@ -24,6 +26,8 @@ test = open(testhash, 'r')
 
 Hash2 = json.load(open('/home/allan/Tuberculosis/Hash/Hash2', 'r'))
 Hash3 = json.load(open('/home/allan/Tuberculosis/Hash/Hash3', 'r'))
+
+
 Test = json.load(test)
 
 '''
@@ -32,4 +36,16 @@ def UniqueNaiveBayes(Hash2address, Hash3address):
     Hash3 = json.load(open(Hash3address, 'r'))
     for pair in Hash3:
         
-''' 
+
+
+keys = []
+
+for key in Test:
+    keys.append(key)
+    
+'''
+
+df = pd.DataFrame(Test.items(), columns= ['Pair', 'Pair Count'])
+
+
+
