@@ -9,43 +9,88 @@ import os
 import json
 import pandas as pd
 import numpy as np
+import decimal
+# import seaborn as sbn
 
 
 master_csv_dir = '/home/allan/Tuberculosis/CSVs'
 hash_dir = '/home/allan/Tuberculosis/Hash'
-testhash = '/home/allan/Tuberculosis/Hash/Test'
+Unique_Single = '/home/allan/Tuberculosis/Hash/Unique_Single'
+Unique_Pairs = '/home/allan/Tuberculosis/Hash/Unique_Pairs'
+
 
 
 csvdir = master_csv_dir
 os.chdir(hash_dir)
 
 
-test = open(testhash, 'r')
-# Creates dict from Hash2 and Hash3 files, contains 'u' (unicode string 
-#  prefix) in dict
 
-Hash2 = json.load(open('/home/allan/Tuberculosis/Hash/Hash2', 'r'))
-Hash3 = json.load(open('/home/allan/Tuberculosis/Hash/Hash3', 'r'))
+# Creates dict from Unique Single and Unique Pairs files, contains 'u'   
+#  (unicode string prefix) in dict
+
+UniqueSingle = json.load(open(Unique_Single, 'r'))
+UniquePairs = json.load(open(Unique_Pairs, 'r'))
+
+keysSingle = []
+for key in UniqueSingle:
+    keysSingle.append(key)
+
+keysPairs = []
+for key in UniquePairs:
+    keysPairs.append(key)
+
+dfUniqueSingle = pd.DataFrame(UniqueSingle.items(), index = keysSingle,
+                              columns = ['Word', 'Word Count'])
+                    
+dfUniquePairs = pd.DataFrame(UniquePairs.items(), index = keysPairs,
+                             columns = ['Pair', 'Pair Count'])
+
+# Test area
+test_pair = '/home/allan/Tuberculosis/Hash/Testpair'
+testpair= json.load(open(test_pair, 'r'))
+
+keysTest = []
+for key in testpair:
+    keysTest.append(key)
 
 
-Test = json.load(test)
+dftest = pd.DataFrame(testpair.items(), index = keysTest, 
+                      columns= ['Pair', 'Pair Count'])
 
-'''
-def UniqueNaiveBayes(Hash2address, Hash3address):
-    Hash2 = json.load(open(Hash2address, 'r'))
-    Hash3 = json.load(open(Hash3address, 'r'))
-    for pair in Hash3:
+TotSingleCnt = int(dfUniqueSingle['Word Count'].sum())
+TotPairsCnt = int(dfUniquePairs['Pair Count'].sum())
+
+
+
+def NaiveBayes(row):
+    decimal.Context(prec = 12)
+    tempwordlst = str(row['Pair']).split(' ')
+    word1 = tempwordlst[0]
+    word2 = tempwordlst[1]
+    count1 = dfUniqueSingle.loc['{word}'.format(word = word1), 'Word Count']
+    count2 = dfUniqueSingle.loc['{word}'.format(word = word2), 'Word Count']
+    countpair = dfUniquePairs.loc['{word_pair}'.format(word_pair = row['Pair']),
+                                  'Pair Count']
+    WordFrac1 = float(count1)/TotSingleCnt
+    WordFrac2 = float(count2)/TotSingleCnt
+    PairFrac = float(countpair)/TotPairsCnt
+    return (WordFrac1 * WordFrac2) / PairFrac
+
+
+# dftest['Bayes'] = dftest.groupby(NaiveBayes, axis = 0 )
+
+
+
+
+dftest['Naive Bayes'] = dftest.apply(NaiveBayes, axis = 1)
+    
         
 
 
-keys = []
 
-for key in Test:
-    keys.append(key)
-    
-'''
 
-df = pd.DataFrame(Test.items(), columns= ['Pair', 'Pair Count'])
+
+
 
 
 
