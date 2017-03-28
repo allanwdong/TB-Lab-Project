@@ -8,7 +8,6 @@ Created on Fri Mar 17 20:44:26 2017
 import os
 import json
 import pandas as pd
-import numpy as np
 import decimal
 # import seaborn as sbn
 
@@ -76,21 +75,25 @@ def NaiveBayes(row):
     PairFrac = float(countpair)/TotPairsCnt
     return (WordFrac1 * WordFrac2) / PairFrac
 
-
-# dftest['Bayes'] = dftest.groupby(NaiveBayes, axis = 0 )
-
-
-
-
+# Test area
 dftest['Naive Bayes'] = dftest.apply(NaiveBayes, axis = 1)
-    
-        
+dftest['Inverse Naive Bayes'] = 1 / dftest['Naive Bayes']  
+
+
+# Real version
+df = dfUniquePairs
+df['Naive Bayes'] = df.apply(NaiveBayes, axis = 1)
+df['Inverse Naive Bayes'] = 1 / df['Naive Bayes']  
+
+
+# Visualization
+
+import matplotlib.pyplot as plt
+df['Inverse Naive Bayes'].hist()
 
 
 
-
-
-
-
-
+import csv
+with open('dfDataFrame.csv', 'w+') as csvfile:
+    df.to_csv(csvfile)
 
